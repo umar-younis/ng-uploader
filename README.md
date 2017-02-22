@@ -20,6 +20,7 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
 
 ## Configuration
 ### Simple upload example
+#### To check full functionality locate demo directory files
     import { Ng2Uploader, Ng2UploaderOptions } from "ng2-upload";
     @Component({
       selector: '',
@@ -52,7 +53,7 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
       files: [];
       constructor(){
         this.files = {} // File object
-        this.uploader = new Ng2Uploader(); // Global options applied for each upload
+        this.uploader = new Ng2Uploader();
         let url = "http://xyz.com/upload";
         let headers = { "Authorization": "Bearer asd", "Accept" : "something" };
         let params: { "param1": "val1", "param2": "val2" };
