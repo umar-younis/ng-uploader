@@ -1,0 +1,31 @@
+{
+  "name": "ng2-upload",
+  "version": "0.0.0",
+  "license": "MIT",
+  "angular-cli": {},
+  "author": "Babar Bilal <babarxm2@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:babarxm/ng2-upload.git"
+  },
+  "bugs": {
+    "url": "https://github.com/babarxm/ng2-upload/issues"
+  },
+  "peerDependencies": {
+    "@angular/common": "*",
+    "@angular/core": "*"
+  },
+  "homepage": "https://github.com/babarxm/ng2-upload#readme",
+  "keywords": [
+    "angular2-file-upload",
+    "ng2-file-upload",
+    "file-upload"
+  ],
+  "contributors": [
+    {
+      "name": "Babar Bilal",
+      "email": "babarxm2@gmail.com",
+      "url": "https://github.com/babarxm"
+    }
+  ]
+}
