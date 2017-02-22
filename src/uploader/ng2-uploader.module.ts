@@ -3,9 +3,7 @@ import { Ng2Uploader } from './ng2-uploader';
 
 @NgModule({
   imports: [],
-  exports: [
-    Ng2Uploader
-  ],
+  exports: [],
   declarations: [],
   providers: [
     Ng2Uploader
