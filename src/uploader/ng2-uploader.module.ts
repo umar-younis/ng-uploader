@@ -1,5 +1,5 @@
-import { NgModule } from "@angular/core";
-import { Ng2Uploader } from "./ng2-uploader";
+import { NgModule } from '@angular/core';
+import { Ng2Uploader } from './ng2-uploader';
 
 @NgModule({
   imports: [],

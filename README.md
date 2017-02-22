@@ -8,7 +8,7 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
 `npm install ng2-upload --save`
 
 
-# Troubleshooting
+## Troubleshooting
 
 Please follow this guidelines when reporting bugs and feature requests:
 
