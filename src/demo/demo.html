@@ -1,0 +1,21 @@
+<div class="upload-holder">
+  <div class="btn-holder">
+    <input type="file" #file (change)="updateFiles()"/>
+  </div>
+  <div class="files-list" *ngFor="let file of uploader.queue; let i = index">
+    <div class="file">
+      <div class="file-holder">
+        <span>80%</span>
+        <div class="progress"></div>
+      </div>
+    </div>
+    <div class="inline-btns">
+      <button class=".button green inline">Start</button>
+      <button class=".button red inline">Remove</button>
+    </div>
+  </div>
+  <div class="start-btns">
+    <button class=".button green">Upload All</button>
+    <button class=".button red">Remove All</button>
+  </div>
+</div>

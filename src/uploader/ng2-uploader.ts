@@ -6,12 +6,16 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class Ng2Uploader implements Ng2UploaderInterface {
-  queue: QueueItem[];
-  options: Ng2UploaderOptions;
-  progress: number;
-  private tempQueue: QueueItem[];
+  queue: QueueItem[] = [];
+  private options: Ng2UploaderOptions;
+  progress: number = 0;
+  private tempQueue: QueueItem[] = [];
   constructor(options?: Ng2UploaderOptions) {
-    this.options = options;
+    this.options = options ? options : {
+      url: '',
+      headers: {},
+      params: {}
+    };
   }
 
   addFile(file: any, options?: Ng2UploaderOptions): void {
@@ -87,6 +91,7 @@ export class Ng2Uploader implements Ng2UploaderInterface {
                 this.tempQueue = [];
               }
               this.queue[index].response = JSON.parse(xhr.response);
+              this.queue[index].status = 1;
               if ((allFlag) && (this.queue[index + 1])) {
                 this.uploadQueue(index + 1, allFlag, resetQ);
               } else {
@@ -100,7 +105,11 @@ export class Ng2Uploader implements Ng2UploaderInterface {
 
         xhr.upload.onprogress = (event) => {
           this.queue[index].progress = Math.round(event.loaded / event.total * 100);
-          observer.next(this.queue[index].progress);
+          observer.next({
+            progress: this.queue[index].progress,
+            file: this.queue[index].file,
+            index: index
+          });
         };
         xhr.send(formData);
       });
