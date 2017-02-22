@@ -19,7 +19,7 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
   - `queue` array of files to be upload.
 
 ## Configuration
-
+### Simple upload example
     import { Ng2Uploader, Ng2UploaderOptions } from "ng2-upload";
     @Component({
       selector: '',
@@ -31,19 +31,32 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
       files: [];
       constructor(){
         this.files = [...] // Array of file objects
-        this.options = {
-          url: "http://xyz.com/upload",
-          headers: {
-            "Authorization": "Bearer asd",
-            "Another-Header": "Some value"
-          },
-          params: {
-            "param1": "val1",
-            "param2": "val2"
-          }
-        };
+        let url = "http://xyz.com/upload";
+        let headers = { "Authorization": "Bearer asd", "Accept" : "something" };
+        let params: { "param1": "val1", "param2": "val2" };
+        this.options = new Ng2UploaderOptions(url, headers, params);
         this.uploader = new Ng2Uploader(this.options); // Global options applied for each upload
         this.uploader.addFiles(this.files);
+        this.uploader.uploadAll();
+      }
+    }
+
+### Example with each file options
+    import { Ng2Uploader, Ng2UploaderOptions } from "ng2-upload";
+    @Component({
+      selector: '',
+      template: ''
+    })
+    export class DemoComponent {
+      uploader: Ng2Uploader;
+      files: [];
+      constructor(){
+        this.files = {} // File object
+        this.uploader = new Ng2Uploader(); // Global options applied for each upload
+        let url = "http://xyz.com/upload";
+        let headers = { "Authorization": "Bearer asd", "Accept" : "something" };
+        let params: { "param1": "val1", "param2": "val2" };
+        this.uploader.addFile(this.file, new Ng2UploaderOptions(url, headers, params)); // Set options for each file
         this.uploader.uploadAll();
       }
     }
