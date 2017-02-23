@@ -2,7 +2,7 @@ export class Ng2UploaderOptions {
   url: string;
   headers: Object;
   params: Object;
-}
+};
 
 export class UploadResponse {
   index: number;

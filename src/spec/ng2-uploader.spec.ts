@@ -3,14 +3,18 @@ import { Ng2Uploader, Ng2UploaderOptions, QueueItem } from '../uploader';
 
 describe('Ng2Uploader', () => {
   let uploader: Ng2Uploader;
-  let file: any = {};
+  let file: any = {
+    name: 'somename123.png'
+  };
   let options: Ng2UploaderOptions = {
     url: 'someurl',
     headers: { 'Authorization': 'bearer asd' },
     params: { 'type': 'image' }
   };
   beforeEach(() => {
-    uploader = new Ng2Uploader(options);
+    uploader = new Ng2Uploader();
+    uploader.setOptions(options);
+    spyOn(uploader, "extractDataURLs");
   });
 
   it('should have following properties', () => {
@@ -61,7 +65,7 @@ describe('Ng2Uploader', () => {
     expect(uploader.queue.length).toBe(0);
     uploader.addFile(file, options);
     expect(uploader.queue.length).toBeGreaterThan(0);
-    uploader.clearFiles();
+    uploader.clearQueue();
     expect(uploader.queue.length).toBe(0);
   });
 
@@ -82,36 +86,29 @@ describe('Ng2Uploader', () => {
 
   it('`uploadAll()` should call `uploadQueue()` if files present', () => {
     uploader.addFile(file, options);
-    spyOn(uploader, "uploadQueue");
+    spyOn(uploader, "uploadQueue").and.returnValue({ subscribe: () => {} });
     uploader.uploadAll();
     expect((<any>uploader).uploadQueue).toHaveBeenCalledWith(0, true);
   });
 
   it('`uploadAll()` should not call `uploadQueue()` if files not present', () => {
-    spyOn(uploader, "uploadQueue");
+    spyOn(uploader, "uploadQueue").and.returnValue({ subscribe: () => {} });
     uploader.uploadAll();
     expect((<any>uploader).uploadQueue).not.toHaveBeenCalledWith(0, true);
   });
 
-  it('`uploadOne()` should not call `uploadQueue()` with specific index', () => {
+  it('`uploadOne()` should call `uploadQueue()` with specific index', () => {
     uploader.addFile(file, options);
-    spyOn(uploader, "uploadQueue");
+    spyOn(uploader, "uploadQueue").and.returnValue({ subscribe: () => {} });
     uploader.uploadOne(0);
     expect((<any>uploader).uploadQueue).toHaveBeenCalledWith(0, false, false);
-  });
-
-  it('`uploadOne()` should log to console if invalid index supplied', () => {
-    uploader.addFile(file, options);
-    spyOn(uploader, "log");
-    uploader.uploadOne(1);
-    expect((<any>uploader).log).toHaveBeenCalledWith(`Ng2Upload: Failed to uploadOne() provided index 1 not exists`);
   });
 
   it('`uploadFile()` should should upload file', () => {
     uploader.addFile(file, options);
     expect((<any>uploader).tempQueue.length).toBe(0);
     expect(uploader.queue.length).toBe(1);
-    spyOn(uploader, "uploadQueue");
+    spyOn(uploader, "uploadQueue").and.returnValue({ subscribe: () => {} });
     uploader.uploadFile(file, options);
     expect((<any>uploader).tempQueue.length).toBe(1);
     expect(uploader.queue.length).toBe(1);

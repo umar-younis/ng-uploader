@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Ng2UploaderOptions, QueueItem, UploadResponse } from './ng2-models';
 import { Ng2UploaderInterface } from './ng2-uploader.interface';
-import { Observable, Subscription, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 @Injectable()
 export class Ng2Uploader implements Ng2UploaderInterface {
@@ -16,7 +16,6 @@ export class Ng2Uploader implements Ng2UploaderInterface {
   private xhr: XMLHttpRequest;
   onUploadComplete: Observable<UploadResponse>;
   private uploadSource: Subject<UploadResponse>;
-  private 
   constructor() {
     this.options = {
       url: '',
@@ -94,7 +93,7 @@ export class Ng2Uploader implements Ng2UploaderInterface {
   }
 
   private uploadQueue(index: number, allFlag: boolean, resetQ?: boolean): Observable<any> {
-    let vm = this;
+    const vm = this;
     vm.interveller();
     if (vm.queue[index]) {
       if (vm.queue[index].isUploading) {
@@ -186,19 +185,19 @@ export class Ng2Uploader implements Ng2UploaderInterface {
   }
 
   private configurePrototypes(): void {
-    let vm = this;
+    const vm = this;
     (this.queue || []).forEach((q, i) => {
       q.remove = () => { vm.removeFile(i); };
-      q.start = () => { vm.uploadOne(i); }
+      q.start = () => { vm.uploadOne(i); };
     });
   }
 
   private extractDataURLs(): void {
-    let validExts: any[] = ['jpg', 'jpeg', 'svg', 'png'];
+    const validExts: any[] = ['jpg', 'jpeg', 'svg', 'png'];
     (this.queue || []).forEach((q, i) => {
-      let name: any = q.file.name.split('.');
+      const name: any = q.file.name.split('.');
       if (validExts.indexOf(name[name.length - 1]) >= 0) {
-        let reader: FileReader = new FileReader();
+        const reader: FileReader = new FileReader();
         reader.addEventListener('load', () => {
           q.preview = reader.result;
         });
