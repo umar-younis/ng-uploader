@@ -18,6 +18,11 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
   - `uploadFile(file, options)` upload a file directly without adding to queue.
   - `queue` array of files to be upload.
 
+## Each item properties
+  - `progress` upload progress of the item.
+  - `status` holds upload flag.
+  - `onUploadComplete` observable which emits data after each upload completed with response.
+
 ## Configuration
 ### Simple upload example
 #### To check full functionality locate demo directory files
@@ -32,10 +37,11 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
       files: [];
       constructor(){
         this.files = [...] // Array of file objects
-        let url = "http://xyz.com/upload";
-        let headers = { "Authorization": "Bearer asd", "Accept" : "something" };
-        let params: { "param1": "val1", "param2": "val2" };
-        this.options = new Ng2UploaderOptions(url, headers, params);
+        this.options = {
+          url: "http://xyz.com/upload",
+          headers: { "Authorization": "Bearer asd", "Accept" : "something" },
+          params: { "param1": "val1", "param2": "val2" }
+        };
         this.uploader = new Ng2Uploader(this.options); // Global options applied for each upload
         this.uploader.addFiles(this.files);
         this.uploader.uploadAll();
@@ -54,10 +60,12 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
       constructor(){
         this.files = {} // File object
         this.uploader = new Ng2Uploader();
-        let url = "http://xyz.com/upload";
-        let headers = { "Authorization": "Bearer asd", "Accept" : "something" };
-        let params: { "param1": "val1", "param2": "val2" };
-        this.uploader.addFile(this.file, new Ng2UploaderOptions(url, headers, params)); // Set options for each file
+        this.options = {
+          url: "http://xyz.com/upload",
+          headers: { "Authorization": "Bearer asd", "Accept" : "something" },
+          params: { "param1": "val1", "param2": "val2" }
+        };
+        this.uploader.addFile(this.file, this.options); // Set options for each file
         this.uploader.uploadAll();
       }
     }
