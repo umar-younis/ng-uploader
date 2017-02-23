@@ -1,21 +1,17 @@
 <div class="upload-holder">
-  <div class="btn-holder">
-    <input type="file" #file (change)="updateFiles()"/>
+  <h3>Ng2 Upload - Demo</h3>
+  <div class="item" *ngFor="let item of uploader.queue; let i = index">
+    <img *ngIf="item.preview" [src]="item.preview"/>
+    <span>{{item.file.name}}</span>
+    <mdl-progress [progress]="item.progress"></mdl-progress>
+    <span>{{item.progress}}%</span>
+    <button mdl-button mdl-button-type="raised" (click)="item.start()"><mdl-icon>file_upload</mdl-icon></button>
+    <button mdl-button mdl-button-type="raised" mdl-colored (click)="item.remove()"><mdl-icon>delete</mdl-icon></button>
   </div>
-  <div class="files-list" *ngFor="let file of uploader.queue; let i = index">
-    <div class="file">
-      <div class="file-holder">
-        <span>80%</span>
-        <div class="progress"></div>
-      </div>
-    </div>
-    <div class="inline-btns">
-      <button class=".button green inline">Start</button>
-      <button class=".button red inline">Remove</button>
-    </div>
-  </div>
-  <div class="start-btns">
-    <button class=".button green">Upload All</button>
-    <button class=".button red">Remove All</button>
+  <div class="actions">
+    <input type="file" multiple #file class="file-selector" (change)="updateFiles()"/>
+    <button mdl-button  mdl-button-type="raised" (click)="selectFiles()" mdl-colored>Select Files</button>
+    <button mdl-button mdl-button-type="raised" (click)="uploader.uploadAll()" mdl-colored>Upload All</button>
+    <button mdl-button mdl-button-type="raised" (click)="uploader.clearQueue()" mdl-colored>Clear All</button>
   </div>
 </div>

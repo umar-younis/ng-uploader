@@ -5,16 +5,20 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { DemoComponent } from './demo/demo.component';
+import { Ng2UploaderModule } from './uploader';
+import { MdlModule } from 'angular2-mdl';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    DemoComponent
-  ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    Ng2UploaderModule,
+    MdlModule
+  ],
+  declarations: [
+    AppComponent,
+    DemoComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

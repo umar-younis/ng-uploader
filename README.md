@@ -10,7 +10,7 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
 ## Properties and methods
   - `addFile(file, options)` add a file to the queue with options (options are optional).
   - `addFiles(files[], options)` add a file to the queue with options (options are optional).
-  - `clearFiles()` remove all files from queue.
+  - `clearQueue()` remove all files from queue.
   - `removeFile(index)` remove a specific file from queue.
   - `setOptions(options)` should set global options for upload applied for each upload.
   - `uploadAll()` upload all files from queue.

@@ -1,5 +1,4 @@
-import { Ng2UploaderOptions } from './ng2-uploader.options';
-import { QueueItem } from './queue.item';
+import { Ng2UploaderOptions } from './ng2-models';
 
 export interface Ng2UploaderInterface {
   setOptions(options: Ng2UploaderOptions);
@@ -9,5 +8,5 @@ export interface Ng2UploaderInterface {
   uploadAll();
   uploadOne(index: number);
   uploadFile(file: any, options?: Ng2UploaderOptions);
-  clearFiles();
+  clearQueue();
 }
