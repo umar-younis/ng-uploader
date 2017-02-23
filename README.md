@@ -32,7 +32,7 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
       template: ''
     })
     export class DemoComponent {
-      uploader: Ng2Uploader;
+      uploader: Ng2Uploader = new Ng2Uploader();
       options: Ng2UploaderOptions;
       files: [];
       constructor(){
@@ -42,7 +42,7 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
           headers: { "Authorization": "Bearer asd", "Accept" : "something" },
           params: { "param1": "val1", "param2": "val2" }
         };
-        this.uploader = new Ng2Uploader(this.options); // Global options applied for each upload
+        this.uploader.setOptions(this.options); // Global options applied for each upload
         this.uploader.addFiles(this.files);
         this.uploader.uploadAll();
       }
@@ -55,7 +55,7 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
       template: ''
     })
     export class DemoComponent {
-      uploader: Ng2Uploader;
+      uploader: Ng2Uploader = new Ng2Uploader();
       files: [];
       constructor(){
         this.files = {} // File object
