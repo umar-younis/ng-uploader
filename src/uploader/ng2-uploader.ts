@@ -16,13 +16,12 @@ export class Ng2Uploader implements Ng2UploaderInterface {
   private xhr: XMLHttpRequest;
   onUploadComplete: Observable<UploadResponse>;
   private uploadSource: Subject<UploadResponse>;
-  constructor(options?: Ng2UploaderOptions) {
+  constructor() {
     this.options = {
       url: '',
       headers: {},
       params: {}
     };
-    this.options = options ? options : this.options;
     this.uploadSource = new Subject<UploadResponse>();
     this.onUploadComplete = this.uploadSource.asObservable();
   }
