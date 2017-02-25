@@ -9,4 +9,5 @@ export interface Ng2UploaderInterface {
   uploadOne(index: number);
   uploadFile(file: any, options?: Ng2UploaderOptions);
   clearQueue();
+  notifier();
 }

@@ -10,8 +10,11 @@
   </div>
   <div class="actions">
     <input type="file" multiple #file class="file-selector" (change)="updateFiles()"/>
-    <button mdl-button  mdl-button-type="raised" (click)="selectFiles()" mdl-colored>Select Files</button>
+    <button mdl-button  mdl-button-type="raised" (click)="selectFiles()" mdl-colored>Custom Select Files</button>
     <button mdl-button mdl-button-type="raised" (click)="uploader.uploadAll()" mdl-colored>Upload All</button>
     <button mdl-button mdl-button-type="raised" (click)="uploader.clearQueue()" mdl-colored>Clear All</button>
+  </div>
+  <div class="actions">
+    Select Files (Directive) <input type="file" multiple ng2UploadSelect/>
   </div>
 </div>

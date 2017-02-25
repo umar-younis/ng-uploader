@@ -14,7 +14,7 @@ export class Ng2Uploader implements Ng2UploaderInterface {
   private currentUpload: number;
   private allUploadFlag: boolean;
   private xhr: XMLHttpRequest;
-  onUploadComplete: Observable<UploadResponse>;
+  private onUploadComplete: Observable<UploadResponse>;
   private uploadSource: Subject<UploadResponse>;
   constructor() {
     this.options = {
@@ -90,6 +90,10 @@ export class Ng2Uploader implements Ng2UploaderInterface {
       options: this.setFileOptions(options)
     });
     this.subscriber = this.uploadQueue(0, false, true).subscribe();
+  }
+
+  notifier(): Observable<UploadResponse> {
+    return this.onUploadComplete;
   }
 
   private uploadQueue(index: number, allFlag: boolean, resetQ?: boolean): Observable<any> {

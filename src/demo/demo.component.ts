@@ -39,5 +39,6 @@ export class DemoComponent {
         this.uploader.addFile(files[0], this.options);
       }
     }
+    this.file.nativeElement.value = '';
   }
 }

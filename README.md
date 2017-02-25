@@ -17,11 +17,10 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
   - `uploadOne(index)` upload a specific file from queue.
   - `uploadFile(file, options)` upload a file directly without adding to queue.
   - `queue` array of files to be upload.
+  - `notifier()` returns observable which emits data after each upload completed with response.
 
-## Each item properties
-  - `progress` upload progress of the item.
-  - `status` holds upload flag.
-  - `onUploadComplete` observable which emits data after each upload completed with response.
+## Directives
+  - `ng2UploadSelect` directives to apply on input file type.
 
 ## Configuration
 ### Simple upload example
@@ -32,10 +31,9 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
       template: ''
     })
     export class DemoComponent {
-      uploader: Ng2Uploader = new Ng2Uploader();
       options: Ng2UploaderOptions;
       files: [];
-      constructor(){
+      constructor(private uploader: Ng2Uploader){
         this.files = [...] // Array of file objects
         this.options = {
           url: "http://xyz.com/upload",
@@ -55,10 +53,9 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
       template: ''
     })
     export class DemoComponent {
-      uploader: Ng2Uploader = new Ng2Uploader();
-      files: [];
-      constructor(){
-        this.files = {} // File object
+      file: {};
+      constructor(private uploader: Ng2Uploader){
+        this.file = {} // File object
         this.uploader = new Ng2Uploader();
         this.options = {
           url: "http://xyz.com/upload",
@@ -71,7 +68,6 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
     }
 
 ## TODO
-  - Add directive to pick files
   - Create a dropzone directive
   - Demo 
 
