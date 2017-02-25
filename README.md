@@ -20,7 +20,8 @@ Follow me [![twitter](https://img.shields.io/twitter/follow/babarxm.svg?style=so
   - `notifier()` returns observable which emits data after each upload completed with response.
 
 ## Directives
-  - `ng2UploadSelect` directives to apply on input file type.
+  - `ng2UploadSelect` directive to apply on input file type.
+  - `ng2UploadDrop` directive to apply on drop area.
 
 ## Configuration
 ### Simple upload example

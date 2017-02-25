@@ -39,3 +39,24 @@ mdl-progress{
   height: 0px;
   visibility: none;
 }
+
+.drop-area{
+  position: relative;
+  width: 500px;
+  height: 300px;
+  border: 1px solid #CCC;
+  border-radius: 10px;
+  margin: auto;
+  margin-top: 50px;
+  text-align: center;
+}
+
+.drop-area:hover{
+  background: #fdfdfd;
+}
+
+.drop-area span {
+  line-height: 300px;
+  font-size: 20px;
+  color: #aaa;
+}
