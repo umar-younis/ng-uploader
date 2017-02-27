@@ -1,6 +1,6 @@
 {
-  "name": "ng2-upload",
-  "version": "1.1.1",
+  "name": "angular2-file-upload",
+  "version": "1.0.0",
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
