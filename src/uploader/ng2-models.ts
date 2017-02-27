@@ -5,10 +5,11 @@ export class Ng2UploaderOptions {
 };
 
 export class UploadResponse {
-  index: number;
-  filename: string;
-  status: number;
-  response: any;
+  index?: number;
+  filename?: string;
+  status?: number;
+  response?: any;
+  isAllUploaded?: boolean;
 };
 
 export class QueueItem {

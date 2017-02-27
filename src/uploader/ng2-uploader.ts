@@ -122,8 +122,9 @@ export class Ng2Uploader implements Ng2UploaderInterface {
         }
 
         this.xhr.onreadystatechange = () => {
+          const invalid_status: number[] = [401, 400, 500, 501, 503];
           if (this.xhr.readyState === 4) {
-            if (this.xhr.status === 200) {
+            if (invalid_status.indexOf(this.xhr.status) < 0) {
               this.clearInterveller();
               if (resetQ) {
                 vm.queue = vm.tempQueue;
@@ -144,7 +145,8 @@ export class Ng2Uploader implements Ng2UploaderInterface {
                 index: index,
                 filename: vm.queue[index].file.name,
                 status: 1,
-                response: this.xhr.response
+                response: this.xhr.response,
+                isAllUploaded: vm.queue[index + 1] ? false : true
               });
             } else {
               observer.error(this.xhr.response);
