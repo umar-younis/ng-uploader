@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Ng2UploaderOptions, QueueItem, UploadResponse } from './ng2-models';
-import { Ng2UploaderInterface } from './ng2-uploader.interface';
+import { Ng2UploaderOptions, QueueItem, UploadResponse } from './ng-models';
+import { Ng2UploaderInterface } from './ng-uploader.interface';
 import { Observable, Subject, Subscription } from 'rxjs';
 
 @Injectable()
-export class Ng2Uploader implements Ng2UploaderInterface {
+export class NgUploader implements NgUploaderInterface {
   queue: QueueItem[] = [];
   private options: Ng2UploaderOptions;
   progress: number = 0;

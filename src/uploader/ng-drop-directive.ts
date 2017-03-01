@@ -1,15 +1,15 @@
 import { Directive, ElementRef, Renderer, HostListener, Output, EventEmitter } from '@angular/core';
-import { Ng2Uploader } from './ng2-uploader';
+import { NgUploader } from './ng-uploader';
 
 @Directive({
   selector: '[ng2UploadDrop]'
 })
-export class Ng2UploadDropDirective {
+export class NgUploadDropDirective {
   el: ElementRef;
   private isUploadBotton: boolean = false;
   @Output() onFileOver: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onFileDrop: EventEmitter<File[]> = new EventEmitter<File[]>();
-  constructor(el: ElementRef, private uploader: Ng2Uploader) {
+  constructor(el: ElementRef, private uploader: NgUploader) {
     this.el = el;
   }
 

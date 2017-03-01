@@ -1,13 +1,13 @@
 import { Directive, ElementRef, Renderer } from '@angular/core';
-import { Ng2Uploader } from './ng2-uploader';
+import { NgUploader } from './ng-uploader';
 
 @Directive({
   selector: '[ng2UploadSelect]'
 })
-export class Ng2UploadSelectDirective {
+export class NgUploadSelectDirective {
   el: ElementRef;
   private isUploadBotton: boolean = false;
-  constructor(el: ElementRef, private uploader: Ng2Uploader) {
+  constructor(el: ElementRef, private uploader: NgUploader) {
     this.el = el;
     this.isValidButton();
     this.el.nativeElement.addEventListener('change', this.onChange.bind(this));

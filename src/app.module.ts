@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { DemoComponent } from './demo/demo.component';
-import { Ng2UploaderModule } from './uploader';
+import { NgUploaderModule } from './uploader';
 import { MdlModule } from 'angular2-mdl';
 
 @NgModule({
@@ -13,7 +13,7 @@ import { MdlModule } from 'angular2-mdl';
     BrowserModule,
     FormsModule,
     HttpModule,
-    Ng2UploaderModule,
+    NgUploaderModule,
     MdlModule
   ],
   declarations: [

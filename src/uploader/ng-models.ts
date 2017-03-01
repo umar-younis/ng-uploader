@@ -1,4 +1,4 @@
-export class Ng2UploaderOptions {
+export class NgUploaderOptions {
   url: string;
   headers: Object;
   params: Object;
@@ -14,7 +14,7 @@ export class UploadResponse {
 
 export class QueueItem {
   file: any;
-  options: Ng2UploaderOptions;
+  options: NgUploaderOptions;
   progress?: number;
   status?: number;
   response?: any;
