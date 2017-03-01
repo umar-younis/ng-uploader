@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Ng2UploaderOptions, QueueItem, UploadResponse } from './ng-models';
-import { Ng2UploaderInterface } from './ng-uploader.interface';
+import { NgUploaderOptions, QueueItem, UploadResponse } from './ng-models';
+import { NgUploaderInterface } from './ng-uploader.interface';
 import { Observable, Subject, Subscription } from 'rxjs';
 
 @Injectable()
 export class NgUploader implements NgUploaderInterface {
   queue: QueueItem[] = [];
-  private options: Ng2UploaderOptions;
+  private options: NgUploaderOptions;
   progress: number = 0;
   private tempQueue: QueueItem[] = [];
   private subscriber: Subscription;
@@ -26,7 +26,7 @@ export class NgUploader implements NgUploaderInterface {
     this.onUploadComplete = this.uploadSource.asObservable();
   }
 
-  addFile(file: any, options?: Ng2UploaderOptions): void {
+  addFile(file: any, options?: NgUploaderOptions): void {
     this.queue.push({
       file: file,
       options: this.setFileOptions(options)
@@ -35,7 +35,7 @@ export class NgUploader implements NgUploaderInterface {
     this.extractDataURLs();
   }
 
-  addFiles(files: any[], options?: Ng2UploaderOptions): void {
+  addFiles(files: any[], options?: NgUploaderOptions): void {
     for (let i = 0; i < files.length; i++) {
       this.queue.push({
         file: files[i],
@@ -65,7 +65,7 @@ export class NgUploader implements NgUploaderInterface {
     this.configurePrototypes();
   }
 
-  setOptions(options: Ng2UploaderOptions): void {
+  setOptions(options: NgUploaderOptions): void {
     this.options = options;
   }
 
@@ -82,7 +82,7 @@ export class NgUploader implements NgUploaderInterface {
     }
   }
 
-  uploadFile(file: any, options?: Ng2UploaderOptions): void {
+  uploadFile(file: any, options?: NgUploaderOptions): void {
     this.tempQueue = this.queue;
     this.queue = [];
     this.queue.push({
@@ -181,8 +181,8 @@ export class NgUploader implements NgUploaderInterface {
     }
   }
 
-  private setFileOptions(options: Ng2UploaderOptions): Ng2UploaderOptions {
-    const opt: Ng2UploaderOptions = this.options || options;
+  private setFileOptions(options: NgUploaderOptions): NgUploaderOptions {
+    const opt: NgUploaderOptions = this.options || options;
     if (options) {
       return options;
     } else {
