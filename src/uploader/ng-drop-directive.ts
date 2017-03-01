@@ -15,8 +15,7 @@ export class NgUploadDropDirective {
 
   @HostListener('drop', ['$event'])
   onDropHandler($event): void {
-    alert("as");
-    let transfer = this._getTransfer($event);
+    const transfer = this._getTransfer($event);
     if (!this._haveFiles(transfer.types)) {
       return;
     }
@@ -40,16 +39,16 @@ export class NgUploadDropDirective {
     this.onFileOver.emit(false);
   }
 
-  private _preventAndStop(event:any):any {
+  private _preventAndStop(event: any): any {
     event.preventDefault();
     event.stopPropagation();
   }
 
-  private _getTransfer(event:any):any {
+  private _getTransfer(event: any): any {
     return event.dataTransfer ? event.dataTransfer : event.originalEvent.dataTransfer;
   }
 
-  private _haveFiles(types:any):any {
+  private _haveFiles(types: any): any {
     if (!types) {
       return false;
     }
