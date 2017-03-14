@@ -1,18 +1,18 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
-import { Ng2Uploader, Ng2UploaderOptions, QueueItem } from '../uploader';
+import { NgUploader, NgUploaderOptions, QueueItem } from '../uploader';
 
-describe('Ng2Uploader', () => {
-  let uploader: Ng2Uploader;
+describe('NgUploader', () => {
+  let uploader: NgUploader;
   let file: any = {
     name: 'somename123.png'
   };
-  let options: Ng2UploaderOptions = {
+  let options: NgUploaderOptions = {
     url: 'someurl',
     headers: { 'Authorization': 'bearer asd' },
     params: { 'type': 'image' }
   };
   beforeEach(() => {
-    uploader = new Ng2Uploader();
+    uploader = new NgUploader();
     uploader.setOptions(options);
     spyOn(uploader, "extractDataURLs");
   });
@@ -20,7 +20,6 @@ describe('Ng2Uploader', () => {
   it('should have following properties', () => {
     expect(uploader.queue.length).toBe(0);
     expect((<any>uploader).options).toBeDefined();
-    expect(uploader.progress).toBe(0);
     expect((<any>uploader).tempQueue.length).toBe(0);
   });
 
