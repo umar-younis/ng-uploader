@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NgUploaderOptions, QueueItem, UploadResponse } from './ng-models';
+import { NgUploaderOptions, QueueItem, UploadResponse, Progress } from './ng-models';
 import { NgUploaderInterface } from './ng-uploader.interface';
 import { Observable, Subject, Subscription } from 'rxjs';
 
@@ -7,15 +7,13 @@ import { Observable, Subject, Subscription } from 'rxjs';
 export class NgUploader implements NgUploaderInterface {
   queue: QueueItem[] = [];
   private options: NgUploaderOptions;
-  progress: number = 0;
   private tempQueue: QueueItem[] = [];
-  private subscriber: Subscription;
   private _interveller: any;
   private currentUpload: number;
   private allUploadFlag: boolean;
   private xhr: XMLHttpRequest;
-  private onUploadComplete: Observable<UploadResponse>;
   private uploadSource: Subject<UploadResponse>;
+  private progressSource: Subject<Progress>;
   constructor() {
     this.options = {
       url: '',
@@ -23,10 +21,10 @@ export class NgUploader implements NgUploaderInterface {
       params: {}
     };
     this.uploadSource = new Subject<UploadResponse>();
-    this.onUploadComplete = this.uploadSource.asObservable();
+    this.progressSource = new Subject<Progress>();
   }
 
-  addFile(file: any, options?: NgUploaderOptions): void {
+  addFile(file: File, options?: NgUploaderOptions): void {
     this.queue.push({
       file: file,
       options: this.setFileOptions(options)
@@ -35,7 +33,7 @@ export class NgUploader implements NgUploaderInterface {
     this.extractDataURLs();
   }
 
-  addFiles(files: any[], options?: NgUploaderOptions): void {
+  addFiles(files: File[], options?: NgUploaderOptions): void {
     for (let i = 0; i < files.length; i++) {
       this.queue.push({
         file: files[i],
@@ -47,14 +45,14 @@ export class NgUploader implements NgUploaderInterface {
   }
 
   clearQueue(): void {
+    this.cancelUpload();
     this.currentUpload = undefined;
-    this.cancelSubscription();
     this.queue = [];
   }
 
   removeFile(index: number): void {
     if (this.currentUpload === index) {
-      this.cancelSubscription();
+      this.cancelUpload();
     }
     if (this.queue[index]) {
       this.queue.splice(index, 1);
@@ -72,14 +70,18 @@ export class NgUploader implements NgUploaderInterface {
   uploadAll(): void {
     if (this.queue.length > 0) {
       this.allUploadFlag = true;
-      this.subscriber = this.uploadQueue(0, true).subscribe();
+      this.uploadQueue(0, true);
     }
   }
 
   uploadOne(index: number): void {
     if (this.queue[index]) {
-      this.subscriber = this.uploadQueue(index, false, false).subscribe();
+      this.uploadQueue(index, false, false);
     }
+  }
+
+  onProgress(): Observable<Progress> {
+    return this.progressSource.asObservable();
   }
 
   uploadFile(file: any, options?: NgUploaderOptions): void {
@@ -89,93 +91,83 @@ export class NgUploader implements NgUploaderInterface {
       file: file,
       options: this.setFileOptions(options)
     });
-    this.subscriber = this.uploadQueue(0, false, true).subscribe();
+    this.uploadQueue(0, false, true);
   }
 
   notifier(): Observable<UploadResponse> {
-    return this.onUploadComplete;
+    return this.uploadSource.asObservable();
   }
 
-  private uploadQueue(index: number, allFlag: boolean, resetQ?: boolean): Observable<any> {
+  private uploadQueue(index: number, allFlag: boolean, resetQ?: boolean): void {
     const vm = this;
-    vm.interveller();
     if (vm.queue[index]) {
       if (vm.queue[index].isUploading) {
-        return Observable.of({});
+        return null;
       }
-      return Observable.create(observer => {
-        const formData: FormData = new FormData();
-        this.xhr = new XMLHttpRequest();
-        this.xhr.open('POST', vm.queue[index].options.url, true);
-        formData.append('file', vm.queue[index].file);
+      const formData: FormData = new FormData();
+      this.xhr = new XMLHttpRequest();
+      this.xhr.open('POST', vm.queue[index].options.url, true);
+      formData.append('file', vm.queue[index].file);
 
-        for (const key in vm.queue[index].options.params) {
-          if (vm.queue[index].options.params[key]) {
-            formData.append(key, vm.queue[index].options.params[key]);
-          }
+      for (const key in vm.queue[index].options.params) {
+        if (vm.queue[index].options.params[key]) {
+          formData.append(key, vm.queue[index].options.params[key]);
         }
+      }
 
-        for (const key in vm.queue[index].options.headers) {
-          if (vm.queue[index].options.headers[key]) {
-            this.xhr.setRequestHeader(key, vm.queue[index].options.headers[key]);
-          }
+      for (const key in vm.queue[index].options.headers) {
+        if (vm.queue[index].options.headers[key]) {
+          this.xhr.setRequestHeader(key, vm.queue[index].options.headers[key]);
         }
+      }
 
-        this.xhr.onreadystatechange = () => {
-          const invalid_status: number[] = [401, 400, 500, 501, 503];
-          if (this.xhr.readyState === 4) {
-            if (invalid_status.indexOf(this.xhr.status) < 0) {
-              this.clearInterveller();
-              if (resetQ) {
-                vm.queue = vm.tempQueue;
-                vm.tempQueue = [];
-              }
-              vm.cancelSubscription();
-              if (vm.queue[index]) {
-                vm.queue[index].response = this.xhr.response;
-                vm.queue[index].status = 1;
-                if ((allFlag) && (vm.queue[index + 1])) {
-                  vm.subscriber = vm.uploadQueue(index + 1, allFlag, resetQ).subscribe();
-                } else {
-                  observer.complete();
-                }
-              }
-              this.currentUpload = undefined;
-              this.uploadSource.next({
-                index: index,
-                filename: vm.queue[index].file.name,
-                status: 1,
-                response: this.xhr.response,
-                isAllUploaded: vm.queue[index + 1] ? false : true
-              });
-            } else {
-              observer.error(this.xhr.response);
+      this.xhr.onreadystatechange = () => {
+        const invalid_status: number[] = [401, 400, 500, 501, 503];
+        if (this.xhr.readyState === 4) {
+          if (invalid_status.indexOf(this.xhr.status) < 0) {
+            this.clearInterveller();
+            if (resetQ) {
+              vm.queue = vm.tempQueue;
+              vm.tempQueue = [];
             }
-          }
-        };
-
-        this.xhr.upload.onprogress = (event) => {
-          if (vm.queue[index]) {
-            vm.queue[index].progress = Math.round(event.loaded / event.total * 100);
-            observer.next({
-              progress: vm.queue[index].progress,
-              file: vm.queue[index].file,
-              index: index
+            if (vm.queue[index]) {
+              vm.queue[index].response = this.xhr.response;
+              vm.queue[index].status = 1;
+              if ((allFlag) && (vm.queue[index + 1])) {
+                vm.uploadQueue(index + 1, allFlag, resetQ);
+              }
+            }
+            this.currentUpload = undefined;
+            this.uploadSource.next({
+              index: index,
+              filename: vm.queue[index].file.name,
+              status: 1,
+              response: this.xhr.response,
+              isAllUploaded: vm.queue[index + 1] ? false : true
             });
           }
-        };
+        }
+      };
+
+      this.xhr.upload.onprogress = (event) => {
+        if (vm.queue[index]) {
+          vm.queue[index].progress = Math.round(event.loaded / event.total * 100);
+          this.progressSource.next({
+            index: index,
+            progress: vm.queue[index].progress
+          });
+        }
+      };
+      if (vm.queue[index]) {
         vm.queue[index].isUploading = true;
-        this.currentUpload = index;
-        this.xhr.send(formData);
-      });
+      }
+      this.currentUpload = index;
+      vm.interveller();
+      this.xhr.send(formData);
     }
   }
 
-  private cancelSubscription(): void {
-    if (this.subscriber) {
-      this.subscriber.unsubscribe();
-      this.subscriber = undefined;
-    }
+  private cancelUpload(): void {
     if (this.currentUpload >= 0) {
       this.xhr.abort();
     }

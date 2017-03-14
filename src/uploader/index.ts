@@ -1,4 +1,4 @@
-export { NgUploaderOptions, QueueItem, UploadResponse } from './ng-models';
+export { NgUploaderOptions, QueueItem, UploadResponse, Progress } from './ng-models';
 export { NgUploader } from './ng-uploader';
 export { NgUploaderModule } from './ng-uploader.module';
 export { NgUploaderInterface } from './ng-uploader.interface';

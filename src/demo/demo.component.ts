@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, Renderer } from '@angular/core';
 
-import { Ng2Uploader, Ng2UploaderOptions } from '../uploader';
+import { NgUploader, NgUploaderOptions } from '../uploader';
 
 @Component({
   selector: 'app-demo',
@@ -9,8 +9,8 @@ import { Ng2Uploader, Ng2UploaderOptions } from '../uploader';
 
 export class DemoComponent {
   @ViewChild('file') file: ElementRef;
-  options: Ng2UploaderOptions;
-  constructor(private uploader: Ng2Uploader, private renderer: Renderer) {
+  options: NgUploaderOptions;
+  constructor(private uploader: NgUploader, private renderer: Renderer) {
     this.options = {
       url: 'http://localhost:9001/upload',
       headers: {

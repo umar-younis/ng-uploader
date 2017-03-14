@@ -10,6 +10,7 @@ export class UploadResponse {
   status?: number;
   response?: any;
   isAllUploaded?: boolean;
+  progress?: number;
 };
 
 export class QueueItem {
@@ -23,3 +24,8 @@ export class QueueItem {
   remove?: Function;
   start?: Function;
 };
+
+export class Progress {
+  index: number;
+  progress: number;
+}
