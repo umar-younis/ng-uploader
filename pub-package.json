@@ -2,7 +2,6 @@
   "name": "ng-uploader",
   "version": "1.0.1",
   "license": "MIT",
-  "angular-cli": {},
   "author": "Babar Bilal <babarxm2@gmail.com>",
   "repository": {
     "type": "git",
@@ -11,9 +10,12 @@
   "bugs": {
     "url": "https://github.com/babarxm/ng-uploader/issues"
   },
+  "main": "index.js",
+  "module": "index.js",
+  "typings": "index.d.ts",
   "peerDependencies": {
-    "@angular/common": "*",
-    "@angular/core": "*"
+    "@angular/common": ">=2.0.0 || >=4.0.0",
+    "@angular/core": ">=2.0.0 || >=4.0.0"
   },
   "homepage": "https://github.com/babarxm/ng-uploader#readme",
   "keywords": [
