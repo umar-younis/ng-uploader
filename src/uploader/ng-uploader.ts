@@ -125,13 +125,14 @@ export class NgUploader implements NgUploaderInterface {
         const invalid_status: number[] = [401, 400, 500, 501, 503];
         if (this.xhr.readyState === 4) {
           if (invalid_status.indexOf(this.xhr.status) < 0) {
+            let response = this.xhr.response;
             this.clearInterveller();
             if (resetQ) {
               vm.queue = vm.tempQueue;
               vm.tempQueue = [];
             }
             if (vm.queue[index]) {
-              vm.queue[index].response = this.xhr.response;
+              vm.queue[index].response = response;
               vm.queue[index].status = 1;
               if ((allFlag) && (vm.queue[index + 1])) {
                 vm.uploadQueue(index + 1, allFlag, resetQ);
@@ -142,7 +143,7 @@ export class NgUploader implements NgUploaderInterface {
               index: index,
               filename: vm.queue[index].file.name,
               status: 1,
-              response: this.xhr.response,
+              response: response,
               isAllUploaded: vm.queue[index + 1] ? false : true
             });
           }
