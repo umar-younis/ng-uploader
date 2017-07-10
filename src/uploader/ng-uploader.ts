@@ -106,7 +106,7 @@ export class NgUploader implements NgUploaderInterface {
       }
       const formData: FormData = new FormData();
       this.xhr = new XMLHttpRequest();
-      this.xhr.open('POST', vm.queue[index].options.url, true);
+      this.xhr.open(vm.queue[index].options.type || 'POST', vm.queue[index].options.url, true);
       formData.append('file', vm.queue[index].file);
 
       for (const key in vm.queue[index].options.params) {
