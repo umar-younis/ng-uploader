@@ -122,31 +122,28 @@ export class NgUploader implements NgUploaderInterface {
       }
 
       this.xhr.onreadystatechange = () => {
-        const invalid_status: number[] = [401, 400, 500, 501, 503];
         if (this.xhr.readyState === 4) {
-          if (invalid_status.indexOf(this.xhr.status) < 0) {
-            let response = this.xhr.response;
-            this.clearInterveller();
-            if (resetQ) {
-              vm.queue = vm.tempQueue;
-              vm.tempQueue = [];
-            }
-            if (vm.queue[index]) {
-              vm.queue[index].response = response;
-              vm.queue[index].status = 1;
-              if ((allFlag) && (vm.queue[index + 1])) {
-                vm.uploadQueue(index + 1, allFlag, resetQ);
-              }
-            }
-            this.currentUpload = undefined;
-            this.uploadSource.next({
-              index: index,
-              filename: vm.queue[index].file.name,
-              status: 1,
-              response: response,
-              isAllUploaded: vm.queue[index + 1] ? false : true
-            });
+          const response = this.xhr.response;
+          this.clearInterveller();
+          if (resetQ) {
+            vm.queue = vm.tempQueue;
+            vm.tempQueue = [];
           }
+          if (vm.queue[index]) {
+            vm.queue[index].response = response;
+            vm.queue[index].status = 1;
+            if ((allFlag) && (vm.queue[index + 1])) {
+              vm.uploadQueue(index + 1, allFlag, resetQ);
+            }
+          }
+          this.currentUpload = undefined;
+          this.uploadSource.next({
+            index: index,
+            filename: vm.queue[index].file.name,
+            status: this.xhr.status,
+            response: response,
+            isAllUploaded: vm.queue[index + 1] ? false : true
+          });
         }
       };
 
