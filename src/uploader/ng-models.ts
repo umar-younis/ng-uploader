@@ -1,4 +1,5 @@
 export class NgUploaderOptions {
+  type?: 'POST' | 'PATCH';
   url: string;
   headers: Object;
   params: Object;
