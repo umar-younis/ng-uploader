@@ -3,6 +3,7 @@ export class NgUploaderOptions {
   url: string;
   headers: Object;
   params: Object;
+  convertToJson?: boolean;
 };
 
 export class UploadResponse {

@@ -19,7 +19,8 @@ export class NgUploader implements NgUploaderInterface {
     this.options = {
       url: '',
       headers: {},
-      params: {}
+      params: {},
+      convertToJson: true
     };
     this.uploadSource = new Subject<UploadResponse>();
     this.progressSource = new Subject<Progress>();
@@ -124,10 +125,7 @@ export class NgUploader implements NgUploaderInterface {
 
       this.xhr.onreadystatechange = () => {
         if (this.xhr.readyState === 4) {
-          const response: Response = new Response(new ResponseOptions({
-            body: this.xhr.response,
-            status: this.xhr.status
-          }));
+          const response: any = this.getParsedResponse(vm.queue[index].options.convertToJson);
           this.currentUpload = undefined;
           this.uploadSource.next({
             index: index,
@@ -204,6 +202,18 @@ export class NgUploader implements NgUploaderInterface {
         reader.readAsDataURL(q.file);
       }
     });
+  }
+
+  private getParsedResponse(convertToJson: boolean): any {
+    if (convertToJson) {
+      let res: Response = new Response(new ResponseOptions({
+        body: this.xhr.response,
+        status: this.xhr.status
+      }));
+      return res.json();
+    } else {
+      return this.xhr.response;
+    }
   }
 
   private interveller(): void {
