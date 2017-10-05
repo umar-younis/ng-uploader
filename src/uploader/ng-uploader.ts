@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { NgUploaderOptions, QueueItem, UploadResponse, Progress } from './ng-models';
 import { NgUploaderInterface } from './ng-uploader.interface';
 import { Observable, Subject, Subscription } from 'rxjs';
+import { Response, ResponseOptions } from "@angular/http";
 
 @Injectable()
 export class NgUploader implements NgUploaderInterface {
@@ -123,7 +124,18 @@ export class NgUploader implements NgUploaderInterface {
 
       this.xhr.onreadystatechange = () => {
         if (this.xhr.readyState === 4) {
-          const response = this.xhr.response;
+          const response: Response = new Response(new ResponseOptions({
+            body: this.xhr.response,
+            status: this.xhr.status
+          }));
+          this.currentUpload = undefined;
+          this.uploadSource.next({
+            index: index,
+            filename: vm.queue[index].file.name,
+            status: this.xhr.status,
+            response: response,
+            isAllUploaded: vm.queue[index + 1] ? false : true
+          });
           this.clearInterveller();
           if (resetQ) {
             vm.queue = vm.tempQueue;
@@ -136,14 +148,6 @@ export class NgUploader implements NgUploaderInterface {
               vm.uploadQueue(index + 1, allFlag, resetQ);
             }
           }
-          this.currentUpload = undefined;
-          this.uploadSource.next({
-            index: index,
-            filename: vm.queue[index].file.name,
-            status: this.xhr.status,
-            response: response,
-            isAllUploaded: vm.queue[index + 1] ? false : true
-          });
         }
       };
 

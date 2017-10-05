@@ -1,6 +1,6 @@
 {
   "name": "ng-uploader",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "license": "MIT",
   "author": "Babar Bilal <babarxm2@gmail.com>",
   "repository": {
@@ -15,7 +15,8 @@
   "typings": "index.d.ts",
   "peerDependencies": {
     "rxjs": ">=5.1.0",
-    "@angular/core": ">=2.0.0"
+    "@angular/core": ">=2.0.0",
+    "@angular/http": ">=2.0.0",
   },
   "homepage": "https://github.com/babarxm/ng-uploader#readme",
   "keywords": [
