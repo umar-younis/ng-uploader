@@ -16,7 +16,7 @@
   "peerDependencies": {
     "rxjs": ">=5.1.0",
     "@angular/core": ">=2.0.0",
-    "@angular/http": ">=2.0.0",
+    "@angular/http": ">=2.0.0"
   },
   "homepage": "https://github.com/babarxm/ng-uploader#readme",
   "keywords": [
