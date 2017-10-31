@@ -5,15 +5,19 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { DemoComponent } from './demo/demo.component';
-import { NgUploaderModule } from './uploader';
+export { NgUploaderOptions, QueueItem, UploadResponse, Progress } from './uploader/ng-models';
+export { NgUploader } from './uploader/ng-uploader';
+export { NgUploaderModule } from './uploader/ng-uploader.module';
+export { NgUploaderInterface } from './uploader/ng-uploader.interface';
+
 import { MdlModule } from 'angular2-mdl';
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
     NgUploaderModule,
+    HttpModule,
     MdlModule
   ],
   declarations: [
