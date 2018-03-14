@@ -25,6 +25,7 @@ export class QueueItem {
   preview?: any;
   remove?: Function;
   start?: Function;
+  data?: any;
 };
 
 export class Progress {

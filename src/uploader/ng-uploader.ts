@@ -20,7 +20,7 @@ export class NgUploader implements NgUploaderInterface {
       url: '',
       headers: {},
       params: {},
-      convertToJson: true
+      convertToJson: false
     };
     this.uploadSource = new Subject<UploadResponse>();
     this.progressSource = new Subject<Progress>();
@@ -53,12 +53,8 @@ export class NgUploader implements NgUploaderInterface {
   }
 
   removeFile(index: number): void {
-    if (this.currentUpload === index) {
-      this.cancelUpload();
-    }
-    if (this.queue[index]) {
-      this.queue.splice(index, 1);
-    }
+    this.cancelUpload();
+    if (this.queue[index]) this.queue.splice(index, 1);
     if (this.currentUpload >= 0 && this.allUploadFlag) {
       this.uploadAll();
     }
@@ -125,6 +121,7 @@ export class NgUploader implements NgUploaderInterface {
 
       this.xhr.onreadystatechange = () => {
         if (this.xhr.readyState === 4) {
+          if (!vm.queue[index]) return;
           const response: any = this.getParsedResponse(vm.queue[index].options.convertToJson);
           this.currentUpload = undefined;
           this.uploadSource.next({
