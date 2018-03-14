@@ -53,7 +53,9 @@ export class NgUploader implements NgUploaderInterface {
   }
 
   removeFile(index: number): void {
-    this.cancelUpload();
+    if (this.currentUpload === index) {
+      this.cancelUpload();
+    }
     if (this.queue[index]) this.queue.splice(index, 1);
     if (this.currentUpload >= 0 && this.allUploadFlag) {
       this.uploadAll();
