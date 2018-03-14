@@ -124,6 +124,16 @@ export class NgUploader implements NgUploaderInterface {
       this.xhr.onreadystatechange = () => {
         if (this.xhr.readyState === 4) {
           if (!vm.queue[index]) return;
+          if (this.xhr.status === 0) {
+            if ((allFlag) && (vm.queue[index + 1])) {
+              vm.uploadAll();
+            } else {
+              this.uploadSource.next({
+                isAllUploaded: true
+              });
+            }
+            return;
+          }
           const response: any = this.getParsedResponse(vm.queue[index].options.convertToJson);
           this.currentUpload = undefined;
           this.uploadSource.next({
