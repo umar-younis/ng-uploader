@@ -104,6 +104,10 @@ export class NgUploader implements NgUploaderInterface {
       if (vm.queue[index].isUploading) {
         return null;
       }
+      if (vm.queue[index].status >= 0) {
+        vm.uploadQueue(index + 1, allFlag, resetQ);
+        return;
+      }
       const formData: FormData = new FormData();
       this.xhr = new XMLHttpRequest();
       this.xhr.open(vm.queue[index].options.type || 'POST', vm.queue[index].options.url, true);
@@ -151,6 +155,7 @@ export class NgUploader implements NgUploaderInterface {
           if (vm.queue[index]) {
             vm.queue[index].response = response;
             vm.queue[index].status = 1;
+            vm.queue[index].isUploading = false;
             if ((allFlag) && (vm.queue[index + 1])) {
               vm.uploadQueue(index + 1, allFlag, resetQ);
             }
