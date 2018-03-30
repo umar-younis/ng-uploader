@@ -12,6 +12,7 @@ export class UploadResponse {
   status?: number;
   response?: any;
   isAllUploaded?: boolean;
+  data?: any;
   progress?: number;
 };
 
@@ -31,4 +32,5 @@ export class QueueItem {
 export class Progress {
   index: number;
   progress: number;
+  data: any;
 }

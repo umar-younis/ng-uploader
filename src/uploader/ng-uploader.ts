@@ -145,6 +145,7 @@ export class NgUploader implements NgUploaderInterface {
             filename: vm.queue[index].file.name,
             status: this.xhr.status,
             response: response,
+            data: vm.queue[index].data,
             isAllUploaded: vm.queue[index + 1] ? false : true
           });
           this.clearInterveller();
@@ -168,7 +169,8 @@ export class NgUploader implements NgUploaderInterface {
           vm.queue[index].progress = Math.round(event.loaded / event.total * 100);
           this.progressSource.next({
             index: index,
-            progress: vm.queue[index].progress
+            progress: vm.queue[index].progress,
+            data: vm.queue[index].data
           });
         }
       };
