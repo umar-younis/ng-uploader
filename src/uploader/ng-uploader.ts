@@ -133,6 +133,9 @@ export class NgUploader implements NgUploaderInterface {
               vm.uploadAll();
             } else {
               this.uploadSource.next({
+                filename: vm.queue[index].file.name,
+                response: {},
+                data: vm.queue[index].data,
                 isAllUploaded: true
               });
             }
